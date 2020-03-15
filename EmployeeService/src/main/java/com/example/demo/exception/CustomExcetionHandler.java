@@ -1,5 +1,7 @@
 package com.example.demo.exception;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -9,8 +11,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomExcetionHandler extends ResponseEntityExceptionHandler {
 	
 		@ExceptionHandler(StudentNotFoundException.class)
-		public ErrorResponse handleStudentNotFoundException(StudentNotFoundException ex, WebRequest request) {
+		public ResponseEntity<ErrorResponse> handleStudentNotFoundException(StudentNotFoundException ex, WebRequest request) {
 			
-			return new ErrorResponse("Student Not Found", ex.getLocalizedMessage());
+			ErrorResponse response =new ErrorResponse("Student Not Found", ex.getMessage());
+			 return new ResponseEntity<ErrorResponse>(response, HttpStatus.BAD_REQUEST);
 		}
 }

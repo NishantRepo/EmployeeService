@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,14 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Student updateStudent(Student student) {
-		Student stud = studentRepository.findById(student.getId()).get();
-		if(stud == null) {
+		Optional<Student> stud = studentRepository.findById(student.getId());
+		if(!stud.isPresent()) {
 			throw new StudentNotFoundException("Invalid Student ID") ;
 		} else {
-		stud.setName(student.getName() == null ? stud.getName() : student.getName());
-		stud.setAddress(student.getAddress() == null ? stud.getAddress() : stud.getAddress());
-		return studentRepository.save(stud);
+		Student s =	stud.get();
+		s.setName(student.getName() == null ? s.getName() : student.getName());
+		s.setAddress(student.getAddress() == null ? s.getAddress() : student.getAddress());
+		return studentRepository.save(s);
 		}
 	}
 
