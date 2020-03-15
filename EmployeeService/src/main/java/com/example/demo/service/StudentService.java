@@ -6,14 +6,13 @@ import com.example.demo.model.Student;
 
 public interface StudentService {
 	
-	
 	public Student getById(int id);
 	
 	public Student createStudent(Student student);
 
 	public List<Student> getList();
 	
-	public Student UpdateStudent();
+	public Student updateStudent(Student student);
 	
 	public void deleteStudent(Student student);
 }
