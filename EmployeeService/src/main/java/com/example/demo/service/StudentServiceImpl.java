@@ -3,7 +3,6 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +29,23 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Student updateStudent(Student student) {
 		Optional<Student> stud = studentRepository.findById(student.getId());
-		if(!stud.isPresent()) {
-			throw new StudentNotFoundException("Invalid Student ID") ;
+		if (!stud.isPresent()) {
+			throw new StudentNotFoundException("Invalid Student ID");
 		} else {
-		Student s =	stud.get();
-		s.setName(student.getName() == null ? s.getName() : student.getName());
-		s.setAddress(student.getAddress() == null ? s.getAddress() : student.getAddress());
-		return studentRepository.save(s);
+			Student s = stud.get();
+			s.setName(student.getName() == null ? s.getName() : student.getName());
+			s.setAddress(student.getAddress() == null ? s.getAddress() : student.getAddress());
+			return studentRepository.save(s);
 		}
+	}
+
+	@Override
+	public Student update(Student student) {
+		return studentRepository.findById(student.getId()).map(stud -> {
+			stud.setAddress(student.getAddress());
+			stud.setName(student.getName());
+			return studentRepository.save(stud);
+		}).get();
 	}
 
 	@Override
