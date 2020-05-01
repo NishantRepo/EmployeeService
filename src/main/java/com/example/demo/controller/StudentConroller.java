@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Student;
 import com.example.demo.service.StudentService;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/student", produces = MediaType.APPLICATION_JSON_VALUE)
 public class StudentConroller {
@@ -28,7 +30,7 @@ public class StudentConroller {
 		return studentService.getList();
 	}
 
-	@PostMapping("/get")
+	@GetMapping("/get")
 	public Student getStudent(@RequestParam @NotNull int id) {
 		return studentService.getById(id);
 	}
